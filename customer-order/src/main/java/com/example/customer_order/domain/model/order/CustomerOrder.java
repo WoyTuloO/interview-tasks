@@ -11,8 +11,8 @@ import java.util.UUID;
 public class CustomerOrder {
     private final OrderId id;
     private final String customerId;
-    private final String productSku;
-    private final int quantity;
+    private String productSku;
+    private int quantity;
     private OrderStatus status;
 
     private final List<Object> domainEvents = new ArrayList<>();
@@ -32,6 +32,21 @@ public class CustomerOrder {
 
     public static CustomerOrder reconstruct(OrderId orderId, String customerId, String productSku, int quantity, OrderStatus status) {
         return new CustomerOrder(orderId, customerId, productSku, quantity, status);
+    }
+
+    public void updateDetails(String productSku, int quantity) {
+        if (!OrderStatus.PLACED.equals(this.status)) {
+            throw new InvalidOrderStatusException("Nie można edytować zamówienia o statusie: " + this.status);
+        }
+        if (productSku == null || productSku.isBlank()) {
+            throw new IllegalArgumentException("Product SKU must not be blank");
+        }
+        if (quantity <= 0) {
+            throw new IllegalArgumentException("Quantity must be greater than zero");
+        }
+
+        this.productSku = productSku;
+        this.quantity = quantity;
     }
 
     public void pay() {
