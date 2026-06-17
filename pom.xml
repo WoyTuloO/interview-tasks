@@ -11,6 +11,7 @@
     <modules>
         <module>manufacturing-order</module>
         <module>customer-order</module>
+        <module>worker</module>
         <module>common</module>
     </modules>
     <properties>

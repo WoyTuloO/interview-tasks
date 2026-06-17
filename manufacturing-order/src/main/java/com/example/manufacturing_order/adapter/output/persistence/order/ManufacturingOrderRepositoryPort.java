@@ -9,4 +9,5 @@ public interface ManufacturingOrderRepositoryPort {
     ManufacturingOrder save(ManufacturingOrder manufacturingOrder);
     Optional<ManufacturingOrder> findById(ManufacturingOrderId id);
     Optional<ManufacturingOrder> findBySourceOrderId(String sourceOrderId);
+    Optional<ManufacturingOrder> findFirstPending();
 }
