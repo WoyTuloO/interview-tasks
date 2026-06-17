@@ -1,5 +1,6 @@
 package com.example.manufacturing_order.domain.model.order;
 
+import java.util.List;
 import java.util.UUID;
 
 public class ManufacturingOrder {
@@ -7,17 +8,31 @@ public class ManufacturingOrder {
     private final String sourceOrderId;
     private final String productSku;
     private final int quantity;
+    private final List<MaterialRequirement> materialRequirements;
     private ManufacturingStatus status;
 
-    private ManufacturingOrder(ManufacturingOrderId id, String sourceOrderId, String productSku, int quantity, ManufacturingStatus status) {
+    private ManufacturingOrder(
+            ManufacturingOrderId id,
+            String sourceOrderId,
+            String productSku,
+            int quantity,
+            List<MaterialRequirement> materialRequirements,
+            ManufacturingStatus status
+    ) {
         this.id = id;
         this.sourceOrderId = sourceOrderId;
         this.productSku = productSku;
         this.quantity = quantity;
+        this.materialRequirements = List.copyOf(materialRequirements);
         this.status = status;
     }
 
-    public static ManufacturingOrder createNew(String sourceOrderId, String productSku, int quantity) {
+    public static ManufacturingOrder createNew(
+            String sourceOrderId,
+            String productSku,
+            int quantity,
+            List<MaterialRequirement> materialRequirements
+    ) {
         if (sourceOrderId == null) {
             throw new IllegalArgumentException("Identyfikator źródłowy zamówienia nie może być pusty.");
         }
@@ -27,11 +42,35 @@ public class ManufacturingOrder {
         if (quantity <= 0) {
             throw new IllegalArgumentException("Ilość produkcyjna musi być większa od zera.");
         }
-        return new ManufacturingOrder(ManufacturingOrderId.generate(), sourceOrderId, productSku, quantity, ManufacturingStatus.PENDING);
+        if (materialRequirements == null || materialRequirements.isEmpty()) {
+            throw new IllegalArgumentException("Zlecenie produkcyjne musi zawierać wymagania materiałowe.");
+        }
+        return new ManufacturingOrder(
+                ManufacturingOrderId.generate(),
+                sourceOrderId,
+                productSku,
+                quantity,
+                materialRequirements,
+                ManufacturingStatus.PENDING
+        );
     }
 
-    public static ManufacturingOrder reconstitute(UUID id, String sourceOrderId, String productSku, int quantity, ManufacturingStatus status) {
-        return new ManufacturingOrder(new ManufacturingOrderId(id), sourceOrderId, productSku, quantity, status);
+    public static ManufacturingOrder reconstitute(
+            UUID id,
+            String sourceOrderId,
+            String productSku,
+            int quantity,
+            List<MaterialRequirement> materialRequirements,
+            ManufacturingStatus status
+    ) {
+        return new ManufacturingOrder(
+                new ManufacturingOrderId(id),
+                sourceOrderId,
+                productSku,
+                quantity,
+                materialRequirements,
+                status
+        );
     }
 
     public void startProduction() {
@@ -52,5 +91,6 @@ public class ManufacturingOrder {
     public String getSourceOrderId() { return sourceOrderId; }
     public String getProductSku() { return productSku; }
     public int getQuantity() { return quantity; }
+    public List<MaterialRequirement> getMaterialRequirements() { return materialRequirements; }
     public ManufacturingStatus getStatus() { return status; }
 }

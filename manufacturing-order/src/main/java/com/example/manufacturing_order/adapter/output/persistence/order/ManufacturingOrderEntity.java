@@ -3,6 +3,8 @@ package com.example.manufacturing_order.adapter.output.persistence.order;
 import com.example.manufacturing_order.domain.model.order.ManufacturingStatus;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -22,6 +24,9 @@ public class ManufacturingOrderEntity {
     @Enumerated(EnumType.STRING)
     private ManufacturingStatus status;
 
+    @OneToMany(mappedBy = "manufacturingOrder", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<MaterialRequirementEntity> materialRequirements = new ArrayList<>();
+
     public ManufacturingOrderEntity() {}
 
     public UUID getId() { return id; }
@@ -34,4 +39,6 @@ public class ManufacturingOrderEntity {
     public void setQuantity(int quantity) { this.quantity = quantity; }
     public ManufacturingStatus getStatus() { return status; }
     public void setStatus(ManufacturingStatus status) { this.status = status; }
+    public List<MaterialRequirementEntity> getMaterialRequirements() { return materialRequirements; }
+    public void setMaterialRequirements(List<MaterialRequirementEntity> materialRequirements) { this.materialRequirements = materialRequirements; }
 }
