@@ -22,7 +22,7 @@ public class UpdateCustomerOrderHandler {
     @Transactional
     public CustomerOrder handle(UpdateCustomerOrderCommand command) {
         CustomerOrder order = repositoryPort.findById(command.orderId())
-                .orElseThrow(() -> new IllegalArgumentException("Nie znaleziono zamówienia: " + command.orderId()));
+                .orElseThrow(() -> new CustomerOrderNotFoundException(command.orderId()));
 
         if (!productAvailabilityPort.isProductAvailable(command.productSku())) {
             throw new ProductNotAvailableException(command.productSku());

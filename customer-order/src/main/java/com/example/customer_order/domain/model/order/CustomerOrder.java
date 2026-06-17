@@ -49,6 +49,12 @@ public class CustomerOrder {
         this.quantity = quantity;
     }
 
+    public void ensureDeletable() {
+        if (!OrderStatus.PLACED.equals(this.status)) {
+            throw new InvalidOrderStatusException("Nie można usunąć zamówienia o statusie: " + this.status);
+        }
+    }
+
     public void pay() {
         if (!OrderStatus.PLACED.equals(this.status)) {
             throw new InvalidOrderStatusException("Nie można opłacić zamówienia o statusie: " + this.status);
