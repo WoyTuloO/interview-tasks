@@ -6,7 +6,12 @@ import com.example.manufacturing_order.adapter.output.persistence.bom.SpringData
 import com.example.manufacturing_order.adapter.output.persistence.order.ManufacturingOrderRepositoryAdapter;
 import com.example.manufacturing_order.adapter.output.persistence.order.ManufacturingOrderRepositoryPort;
 import com.example.manufacturing_order.adapter.output.persistence.order.SpringDataManufacturingOrderRepository;
+import com.example.manufacturing_order.adapter.output.persistence.stock.MaterialStockRepositoryAdapter;
+import com.example.manufacturing_order.adapter.output.persistence.stock.MaterialStockRepositoryPort;
+import com.example.manufacturing_order.adapter.output.persistence.stock.SpringDataMaterialStockRepository;
 import com.example.manufacturing_order.application.order.CreateManufacturingOrderHandler;
+import com.example.manufacturing_order.application.order.StartManufacturingOrderHandler;
+import com.example.manufacturing_order.application.product.CheckProductAvailabilityHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -29,5 +34,26 @@ public class ManufacturingOrderConfig {
             BillOfMaterialsRepositoryPort billOfMaterialsRepositoryPort
     ) {
         return new CreateManufacturingOrderHandler(repositoryPort, billOfMaterialsRepositoryPort);
+    }
+
+    @Bean
+    public MaterialStockRepositoryPort materialStockRepositoryPort(SpringDataMaterialStockRepository stockRepository) {
+        return new MaterialStockRepositoryAdapter(stockRepository);
+    }
+
+    @Bean
+    public CheckProductAvailabilityHandler checkProductAvailabilityHandler(
+            BillOfMaterialsRepositoryPort billOfMaterialsRepositoryPort,
+            MaterialStockRepositoryPort materialStockRepositoryPort
+    ) {
+        return new CheckProductAvailabilityHandler(billOfMaterialsRepositoryPort, materialStockRepositoryPort);
+    }
+
+    @Bean
+    public StartManufacturingOrderHandler startManufacturingOrderHandler(
+            ManufacturingOrderRepositoryPort manufacturingOrderRepositoryPort,
+            MaterialStockRepositoryPort materialStockRepositoryPort
+    ) {
+        return new StartManufacturingOrderHandler(manufacturingOrderRepositoryPort, materialStockRepositoryPort);
     }
 }
