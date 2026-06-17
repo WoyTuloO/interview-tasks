@@ -12,6 +12,7 @@ import com.example.manufacturing_order.adapter.output.persistence.stock.SpringDa
 import com.example.manufacturing_order.application.order.CreateManufacturingOrderHandler;
 import com.example.manufacturing_order.application.order.StartManufacturingOrderHandler;
 import com.example.manufacturing_order.application.product.CheckProductAvailabilityHandler;
+import com.example.manufacturing_order.application.product.CheckProductAvailabilityPort;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -42,7 +43,7 @@ public class ManufacturingOrderConfig {
     }
 
     @Bean
-    public CheckProductAvailabilityHandler checkProductAvailabilityHandler(
+    public CheckProductAvailabilityPort checkProductAvailabilityPort(
             BillOfMaterialsRepositoryPort billOfMaterialsRepositoryPort,
             MaterialStockRepositoryPort materialStockRepositoryPort
     ) {

@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class CheckProductAvailabilityHandler {
+public class CheckProductAvailabilityHandler implements CheckProductAvailabilityPort {
 
     private final BillOfMaterialsRepositoryPort billOfMaterialsRepositoryPort;
     private final MaterialStockRepositoryPort materialStockRepositoryPort;
@@ -25,7 +25,8 @@ public class CheckProductAvailabilityHandler {
         this.materialStockRepositoryPort = materialStockRepositoryPort;
     }
 
-    public ProductAvailabilityResponse handle(String productSku) {
+    @Override
+    public ProductAvailabilityResponse check(String productSku) {
         return billOfMaterialsRepositoryPort.findByProductSku(productSku)
                 .map(bom -> new ProductAvailabilityResponse(productSku, hasSufficientStock(bom, 1)))
                 .orElseGet(() -> new ProductAvailabilityResponse(productSku, false));
