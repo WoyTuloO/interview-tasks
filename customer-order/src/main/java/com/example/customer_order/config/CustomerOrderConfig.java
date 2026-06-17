@@ -7,6 +7,7 @@ import com.example.customer_order.adapter.output.persistence.order.DeleteCustome
 import com.example.customer_order.adapter.output.persistence.order.UpdateCustomerOrderRepositoryPort;
 import com.example.customer_order.adapter.output.persistence.payment.PayCustomerOrderRepositoryPort;
 import com.example.customer_order.application.order.CreateCustomerOrderHandler;
+import com.example.customer_order.application.order.DeleteCustomerOrderHandler;
 import com.example.customer_order.application.order.UpdateCustomerOrderHandler;
 import com.example.customer_order.application.payment.PayCustomerOrderHandler;
 import org.springframework.beans.factory.annotation.Value;
