@@ -2,9 +2,11 @@ package com.example.customer_order.config;
 
 import com.example.customer_order.adapter.output.outbox.SpringCustomerOrderEventPublisher;
 import com.example.customer_order.application.order.CreateCustomerOrderHandler;
+import com.example.customer_order.application.order.DeleteCustomerOrderHandler;
 import com.example.customer_order.application.order.UpdateCustomerOrderHandler;
 import com.example.customer_order.application.payment.PayCustomerOrderHandler;
 import com.example.customer_order.adapter.output.persistence.order.CustomerOrderRepositoryPort;
+import com.example.customer_order.adapter.output.persistence.order.DeleteCustomerOrderRepositoryPort;
 import com.example.customer_order.adapter.output.persistence.order.UpdateCustomerOrderRepositoryPort;
 import com.example.customer_order.adapter.output.persistence.payment.PayCustomerOrderRepositoryPort;
 import org.springframework.context.annotation.Bean;
@@ -23,6 +25,12 @@ public class CustomerOrderConfig {
     public UpdateCustomerOrderHandler updateCustomerOrderHandler(
             UpdateCustomerOrderRepositoryPort repositoryPort) {
         return new UpdateCustomerOrderHandler(repositoryPort);
+    }
+
+    @Bean
+    public DeleteCustomerOrderHandler deleteCustomerOrderHandler(
+            DeleteCustomerOrderRepositoryPort repositoryPort) {
+        return new DeleteCustomerOrderHandler(repositoryPort);
     }
 
     @Bean
