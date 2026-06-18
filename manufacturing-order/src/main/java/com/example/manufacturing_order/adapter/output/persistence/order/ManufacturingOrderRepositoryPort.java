@@ -10,4 +10,6 @@ public interface ManufacturingOrderRepositoryPort {
     Optional<ManufacturingOrder> findById(ManufacturingOrderId id);
     Optional<ManufacturingOrder> findBySourceOrderId(String sourceOrderId);
     Optional<ManufacturingOrder> findFirstPending();
+    Optional<ManufacturingOrder> findFirstInProgress();
+    Optional<ManufacturingOrder> findFirstFinished();
 }

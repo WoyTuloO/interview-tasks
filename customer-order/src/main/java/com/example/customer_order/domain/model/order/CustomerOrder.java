@@ -71,6 +71,10 @@ public class CustomerOrder {
         this.status = OrderStatus.MANUFACTURING_TRIGGERED;
     }
 
+    public void cancel() {
+        this.status = OrderStatus.CANCEL;
+    }
+
     public OrderId getId() {
         return id;
     }
@@ -98,5 +102,6 @@ public class CustomerOrder {
     public void clearDomainEvents() {
         this.domainEvents.clear();
     }
+
 
 }

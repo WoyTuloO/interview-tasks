@@ -7,6 +7,5 @@ import java.util.UUID;
 
 public interface DeleteCustomerOrderRepositoryPort {
     Optional<CustomerOrder> findById(UUID id);
-
     void delete(CustomerOrder order);
 }
