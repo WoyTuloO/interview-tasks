@@ -87,6 +87,20 @@ public class ManufacturingOrder {
         this.status = ManufacturingStatus.FINISHED;
     }
 
+    public void cancelProduction() {
+        if (this.status != ManufacturingStatus.PENDING) {
+            throw new IllegalStateException("Nie można anulować produkcji o statusie: " + this.status);
+        }
+        this.status = ManufacturingStatus.CANCELED;
+    }
+
+    public void markAsNotified() {
+        if (this.status != ManufacturingStatus.FINISHED) {
+            throw new IllegalStateException("Można oznaczyć jako powiadomione tylko zlecenia zakończone.");
+        }
+        this.status = ManufacturingStatus.NOTIFIED;
+    }
+
     public ManufacturingOrderId getId() { return id; }
     public String getSourceOrderId() { return sourceOrderId; }
     public String getProductSku() { return productSku; }

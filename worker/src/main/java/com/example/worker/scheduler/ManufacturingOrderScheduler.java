@@ -21,7 +21,7 @@ public class ManufacturingOrderScheduler {
                 .build();
     }
 
-    @Scheduled(fixedRate = 600000, initialDelay = 5000)
+    @Scheduled(fixedRate = 2000, initialDelay = 5000)
     public void triggerManufacturingOrderStart() {
         log.info("Wysyłanie żądania POST do StartManufacturingOrderController...");
 
@@ -32,11 +32,23 @@ public class ManufacturingOrderScheduler {
                     .retrieve()
                     .toEntity(Void.class);
 
-            // Sprawdzamy czy kod statusu to 2xx (dla 204 No Content to prawda)
             if (response.getStatusCode().is2xxSuccessful()) {
                 log.info("Zamówienia produkcyjne zostały pomyślnie uruchomione (HTTP {}).", response.getStatusCode());
             } else {
                 log.warn("Otrzymano nieoczekiwany kod statusu: {}", response.getStatusCode());
+            }
+
+            Thread.sleep(3000);
+
+            ResponseEntity<Void> finishResponse = restClient.post()
+                    .uri("/api/manufacturing-orders/finish")
+                    .retrieve()
+                    .toEntity(Void.class);
+
+            if (finishResponse.getStatusCode().is2xxSuccessful()) {
+                log.info("Zamówienia produkcyjne zostały pomyślnie zakończone (HTTP {}).", finishResponse.getStatusCode());
+            } else {
+                log.warn("Otrzymano nieoczekiwany kod statusu przy kończeniu: {}", finishResponse.getStatusCode());
             }
 
         } catch (Exception e) {

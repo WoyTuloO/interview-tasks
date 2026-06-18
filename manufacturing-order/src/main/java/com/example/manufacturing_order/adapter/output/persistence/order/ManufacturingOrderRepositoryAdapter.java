@@ -56,6 +56,16 @@ public class ManufacturingOrderRepositoryAdapter implements ManufacturingOrderRe
         return repository.findFirstByStatusOrderByIdAsc(ManufacturingStatus.PENDING).map(this::toDomain);
     }
 
+    @Override
+    public Optional<ManufacturingOrder> findFirstInProgress() {
+        return repository.findFirstByStatusOrderByIdAsc(ManufacturingStatus.IN_PROGRESS).map(this::toDomain);
+    }
+
+    @Override
+    public Optional<ManufacturingOrder> findFirstFinished() {
+        return repository.findFirstByStatusOrderByIdAsc(ManufacturingStatus.FINISHED).map(this::toDomain);
+    }
+
     private ManufacturingOrder toDomain(ManufacturingOrderEntity entity) {
         var requirements = entity.getMaterialRequirements().stream()
                 .map(e -> new MaterialRequirement(e.getSemiProductSku(), e.getRequiredQuantity()))
