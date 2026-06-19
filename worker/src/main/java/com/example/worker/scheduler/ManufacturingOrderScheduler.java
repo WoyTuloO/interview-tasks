@@ -14,7 +14,6 @@ public class ManufacturingOrderScheduler {
     private static final Logger log = LoggerFactory.getLogger(ManufacturingOrderScheduler.class);
     private final RestClient restClient;
 
-    // Wstrzykujemy adres URL z pliku konfiguracyjnego i inicjalizujemy RestClient
     public ManufacturingOrderScheduler(@Value("${manufacturing.base-url}") String baseUrl) {
         this.restClient = RestClient.builder()
                 .baseUrl(baseUrl)
@@ -26,7 +25,6 @@ public class ManufacturingOrderScheduler {
         log.info("Wysyłanie żądania POST do StartManufacturingOrderController...");
 
         try {
-            // Odbieramy ResponseEntity<Void>, ponieważ kontroler zwraca noContent() (204)
             ResponseEntity<Void> response = restClient.post()
                     .uri("/api/manufacturing-orders/start")
                     .retrieve()
