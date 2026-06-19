@@ -11,29 +11,23 @@ public class OutboxEntity {
     @Id
     private UUID id;
 
-    // Identyfikator zasobu (np. ID zamówienia), przydatny jako klucz partycjonowania w Kafce
     @Column(name = "aggregate_id", nullable = false)
     private String aggregateId;
 
-    // Nazwa tematu (topicu) na Kafce, na który ma trafić wiadomość
     @Column(name = "topic", nullable = false)
     private String topic;
 
-    // Treść eventu zserializowana do JSON-a
     @Column(name = "payload", nullable = false, columnDefinition = "TEXT")
     private String payload;
 
-    // Status informujący, czy procesor tła wysłał już tę wiadomość
     @Column(name = "processed", nullable = false)
     private boolean processed;
 
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
-    // Konstruktor wymagany przez JPA
     protected OutboxEntity() {}
 
-    // Konstruktor do wygodnego tworzenia nowych wpisów
     public OutboxEntity(String aggregateId, String topic, String payload) {
         this.id = UUID.randomUUID();
         this.aggregateId = aggregateId;
@@ -43,7 +37,6 @@ public class OutboxEntity {
         this.createdAt = LocalDateTime.now();
     }
 
-    // Gettery i Settery
     public UUID getId() { return id; }
     public String getAggregateId() { return aggregateId; }
     public String getTopic() { return topic; }

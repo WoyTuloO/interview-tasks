@@ -22,10 +22,8 @@ public class PayCustomerOrderRepositoryAdapter implements PayCustomerOrderReposi
 
     @Override
     public Optional<CustomerOrder> findById(UUID id) {
-        // 1. Pobieramy techniczną encję z bazy przez JPA
         return springDataRepository.findById(id)
                 .map(entity -> {
-                    // 2. Mapujemy encję JPA na Twój czysty agregat domenowy (Value Objects / Enums)
                     OrderId orderId = OrderId.of(entity.getId());
                     OrderStatus status = OrderStatus.valueOf(entity.getStatus().name());
 

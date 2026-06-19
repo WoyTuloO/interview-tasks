@@ -4,6 +4,8 @@ import com.example.customer_order.application.order.CreateCustomerOrderCommand;
 import com.example.customer_order.application.order.CreateCustomerOrderHandler;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.net.URI;
 import java.util.UUID;
 
 @RestController
@@ -23,6 +25,10 @@ public class CreateCustomerOrderController {
         );
 
         UUID orderId = handler.handle(command);
-        return ResponseEntity.ok("Zamówienie zarejestrowane. ID: " + orderId + ". Oczekiwanie na płatność.");
+        URI location = URI.create("/orders/" + orderId);
+
+        return ResponseEntity
+                .created(location)
+                .body("Zamówienie zarejestrowane. ID: " + orderId + ". Oczekiwanie na płatność.");
     }
 }
