@@ -3,7 +3,6 @@ package com.example.customer_order.application.order;
 import com.example.customer_order.adapter.output.manufacturing.ProductAvailabilityPort;
 import com.example.customer_order.adapter.output.persistence.order.CustomerOrderRepositoryPort;
 import com.example.customer_order.domain.model.order.CustomerOrder;
-import com.example.customer_order.domain.model.order.OrderId;
 import com.example.customer_order.domain.model.order.exception.ProductNotAvailableException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +21,6 @@ public class CreateCustomerOrderHandler {
         }
 
         CustomerOrder order = CustomerOrder.createNew(
-                OrderId.generate(),
                 String.valueOf(command.customerId()),
                 command.productSku(),
                 command.quantity()
