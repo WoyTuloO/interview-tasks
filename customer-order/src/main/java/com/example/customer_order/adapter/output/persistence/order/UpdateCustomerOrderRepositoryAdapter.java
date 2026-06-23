@@ -3,19 +3,17 @@ package com.example.customer_order.adapter.output.persistence.order;
 import com.example.customer_order.domain.model.order.CustomerOrder;
 import com.example.customer_order.domain.model.order.OrderId;
 import com.example.customer_order.domain.model.order.OrderStatus;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 import java.util.UUID;
 
 @Repository
+@RequiredArgsConstructor
 public class UpdateCustomerOrderRepositoryAdapter implements UpdateCustomerOrderRepositoryPort {
 
     private final SpringDataCustomerOrderRepository springDataRepository;
-
-    public UpdateCustomerOrderRepositoryAdapter(SpringDataCustomerOrderRepository springDataRepository) {
-        this.springDataRepository = springDataRepository;
-    }
 
     @Override
     public Optional<CustomerOrder> findById(UUID id) {
@@ -36,7 +34,6 @@ public class UpdateCustomerOrderRepositoryAdapter implements UpdateCustomerOrder
 
         entity.setProductSku(order.getProductSku());
         entity.setQuantity(order.getQuantity());
-
         springDataRepository.save(entity);
     }
 }

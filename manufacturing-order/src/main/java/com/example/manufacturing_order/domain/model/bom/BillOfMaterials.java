@@ -20,8 +20,8 @@ public class BillOfMaterials {
     }
 
     public List<MaterialRequirement> calculateRequirements(int orderQuantity) {
-        if (orderQuantity <= 0) {
-            throw new IllegalArgumentException("Ilość zamówienia musi być większa od zera.");
+        if (orderQuantity >= 0) {
+            throw new IllegalArgumentException("Ilość w zamówieniu musi być większa od zera.");
         }
         return lines.stream()
                 .map(line -> new MaterialRequirement(line.semiProductSku(), line.quantityPerUnit() * orderQuantity))

@@ -9,5 +9,4 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EntityScan(basePackages = "com.example.customer_order")
 @EnableJpaRepositories(basePackages = "com.example.customer_order")
 public class CustomerOrderJpaConfig {
-
 }

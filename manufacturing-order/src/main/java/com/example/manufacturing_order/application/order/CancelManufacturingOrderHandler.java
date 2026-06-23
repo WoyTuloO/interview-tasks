@@ -2,17 +2,15 @@ package com.example.manufacturing_order.application.order;
 
 import com.example.manufacturing_order.adapter.output.persistence.order.ManufacturingOrderRepositoryPort;
 import com.example.manufacturing_order.domain.model.order.ManufacturingOrder;
+import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
+@RequiredArgsConstructor
 public class CancelManufacturingOrderHandler {
 
     private final ManufacturingOrderRepositoryPort manufacturingOrderRepositoryPort;
-
-    public CancelManufacturingOrderHandler(ManufacturingOrderRepositoryPort manufacturingOrderRepositoryPort) {
-        this.manufacturingOrderRepositoryPort = manufacturingOrderRepositoryPort;
-    }
 
     @Transactional
     public void handle(UUID sourceOrderId) {

@@ -1,5 +1,6 @@
 package com.example.customer_order.adapter.output.outbox;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,28 +12,20 @@ import java.util.List;
 
 @Component
 @Slf4j
+@RequiredArgsConstructor
 public class OutboxProcessor {
 
-    private static final Logger log = LoggerFactory.getLogger(OutboxProcessor.class);
     private final OutboxRepository outboxRepository;
     private final KafkaTemplate<String, String> kafkaTemplate;
-
-    public OutboxProcessor(OutboxRepository outboxRepository, KafkaTemplate<String, String> kafkaTemplate) {
-        this.outboxRepository = outboxRepository;
-        this.kafkaTemplate = kafkaTemplate;
-    }
 
     @Scheduled(fixedDelay = 1000)
     public void processOutboxMessages() {
         List<OutboxEntity> pendingMessages = outboxRepository.findByProcessedFalse();
-
         for (OutboxEntity message : pendingMessages) {
             try {
                 kafkaTemplate.send(message.getTopic(), message.getAggregateId(), message.getPayload()).get();
-
                 message.setProcessed(true);
                 outboxRepository.save(message);
-
                 log.info("Wysłano wiadomość z Outbox na topic {} (aggregateId={})", message.getTopic(), message.getAggregateId());
             } catch (Exception e) {
                 log.error("Nie udało się wysłać wiadomości z Outbox: {}", message.getId(), e);

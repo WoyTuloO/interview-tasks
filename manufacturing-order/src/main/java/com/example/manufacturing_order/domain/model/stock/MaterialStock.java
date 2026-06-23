@@ -1,13 +1,11 @@
 package com.example.manufacturing_order.domain.model.stock;
 
+import lombok.AllArgsConstructor;
+
+@AllArgsConstructor
 public class MaterialStock {
     private final String materialSku;
     private int quantity;
-
-    private MaterialStock(String materialSku, int quantity) {
-        this.materialSku = materialSku;
-        this.quantity = quantity;
-    }
 
     public static MaterialStock createNew(String materialSku, int initialQuantity) {
         if (materialSku == null || materialSku.isBlank()) {

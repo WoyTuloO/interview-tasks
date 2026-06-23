@@ -12,13 +12,10 @@ import java.util.UUID;
 public class ProductBomLineEntity {
     @Id
     private UUID id;
-
     @Column(name = "product_sku", nullable = false)
     private String productSku;
-
     @Column(name = "semi_product_sku", nullable = false)
     private String semiProductSku;
-
     @Column(name = "quantity_per_unit", nullable = false)
     private int quantityPerUnit;
 

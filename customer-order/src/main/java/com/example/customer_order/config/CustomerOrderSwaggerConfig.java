@@ -16,7 +16,7 @@ public class CustomerOrderSwaggerConfig {
         return new OpenAPI()
                 .info(new Info()
                         .title("System Obsługi Zamówień - API")
-                        .description("Dokumentacja techniczna modułu Customer Order (DDD + Hexagonal Architecture)")
+                        .description("Dokumentacja techniczna modułu Customer Order")
                         .version("1.0.0")
                         .contact(new Contact()
                                 .name("Java Developer")

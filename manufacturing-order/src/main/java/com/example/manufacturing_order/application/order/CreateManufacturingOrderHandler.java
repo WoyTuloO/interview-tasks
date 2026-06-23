@@ -6,21 +6,16 @@ import com.example.manufacturing_order.domain.model.bom.BillOfMaterials;
 import com.example.manufacturing_order.domain.model.bom.BillOfMaterialsNotFoundException;
 import com.example.manufacturing_order.domain.model.order.ManufacturingOrder;
 import com.example.manufacturing_order.domain.model.order.MaterialRequirement;
+import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 public class CreateManufacturingOrderHandler {
+
     private final ManufacturingOrderRepositoryPort repositoryPort;
     private final BillOfMaterialsRepositoryPort billOfMaterialsRepositoryPort;
-
-    public CreateManufacturingOrderHandler(
-            ManufacturingOrderRepositoryPort repositoryPort,
-            BillOfMaterialsRepositoryPort billOfMaterialsRepositoryPort
-    ) {
-        this.repositoryPort = repositoryPort;
-        this.billOfMaterialsRepositoryPort = billOfMaterialsRepositoryPort;
-    }
 
     @Transactional
     public void handle(CreateManufacturingOrderCommand command) {
@@ -32,14 +27,12 @@ public class CreateManufacturingOrderHandler {
                 .orElseThrow(() -> new BillOfMaterialsNotFoundException(command.productSku()));
 
         List<MaterialRequirement> materialRequirements = billOfMaterials.calculateRequirements(command.quantity());
-
         ManufacturingOrder manufacturingOrder = ManufacturingOrder.createNew(
                 command.sourceOrderId(),
                 command.productSku(),
                 command.quantity(),
                 materialRequirements
         );
-
         repositoryPort.save(manufacturingOrder);
     }
 }

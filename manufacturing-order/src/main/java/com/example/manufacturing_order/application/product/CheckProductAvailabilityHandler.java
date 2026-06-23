@@ -6,24 +6,18 @@ import com.example.manufacturing_order.adapter.output.persistence.stock.Material
 import com.example.manufacturing_order.domain.model.bom.BillOfMaterials;
 import com.example.manufacturing_order.domain.model.order.MaterialRequirement;
 import com.example.manufacturing_order.domain.model.stock.MaterialStock;
+import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+@RequiredArgsConstructor
 public class CheckProductAvailabilityHandler implements CheckProductAvailabilityPort {
 
     private final BillOfMaterialsRepositoryPort billOfMaterialsRepositoryPort;
     private final MaterialStockRepositoryPort materialStockRepositoryPort;
-
-    public CheckProductAvailabilityHandler(
-            BillOfMaterialsRepositoryPort billOfMaterialsRepositoryPort,
-            MaterialStockRepositoryPort materialStockRepositoryPort
-    ) {
-        this.billOfMaterialsRepositoryPort = billOfMaterialsRepositoryPort;
-        this.materialStockRepositoryPort = materialStockRepositoryPort;
-    }
 
     @Override
     public ProductAvailabilityResponse check(String productSku) {

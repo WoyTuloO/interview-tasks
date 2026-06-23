@@ -4,16 +4,15 @@ import com.example.manufacturing_order.domain.model.order.ManufacturingOrder;
 import com.example.manufacturing_order.domain.model.order.ManufacturingOrderId;
 import com.example.manufacturing_order.domain.model.order.ManufacturingStatus;
 import com.example.manufacturing_order.domain.model.order.MaterialRequirement;
+import lombok.RequiredArgsConstructor;
 
 import java.util.Optional;
 import java.util.UUID;
 
+@RequiredArgsConstructor
 public class ManufacturingOrderRepositoryAdapter implements ManufacturingOrderRepositoryPort {
-    private final SpringDataManufacturingOrderRepository repository;
 
-    public ManufacturingOrderRepositoryAdapter(SpringDataManufacturingOrderRepository repository) {
-        this.repository = repository;
-    }
+    private final SpringDataManufacturingOrderRepository repository;
 
     @Override
     public ManufacturingOrder save(ManufacturingOrder domainOrder) {
@@ -36,7 +35,6 @@ public class ManufacturingOrderRepositoryAdapter implements ManufacturingOrderRe
                 entity.getMaterialRequirements().add(requirementEntity);
             }
         }
-
         repository.save(entity);
         return domainOrder;
     }

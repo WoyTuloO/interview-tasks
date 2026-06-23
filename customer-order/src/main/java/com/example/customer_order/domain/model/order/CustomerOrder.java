@@ -25,9 +25,9 @@ public class CustomerOrder {
         this.status = status;
     }
 
-    public static CustomerOrder createNew(OrderId orderId, String customerId, String productSku, int quantity) {
+    public static CustomerOrder createNew(String customerId, String productSku, int quantity) {
         if (quantity <= 0) throw new IllegalArgumentException("Quantity must be greater than zero");
-        return new CustomerOrder(OrderId.generate(), customerId, productSku, quantity, OrderStatus.PLACED);
+        return new CustomerOrder(OrderId.generate(), customerId, productSku, quantity, OrderStatus.MANUFACTURING_TRIGGERED);
     }
 
     public static CustomerOrder reconstruct(OrderId orderId, String customerId, String productSku, int quantity, OrderStatus status) {
@@ -35,6 +35,7 @@ public class CustomerOrder {
     }
 
     public void updateDetails(String productSku, int quantity) {
+        //Zad1
         if (!OrderStatus.PLACED.equals(this.status)) {
             throw new InvalidOrderStatusException("Nie można edytować zamówienia o statusie: " + this.status);
         }
@@ -56,12 +57,10 @@ public class CustomerOrder {
     }
 
     public void pay() {
-        if (!OrderStatus.PLACED.equals(this.status)) {
+        if (!this.status.equals(OrderStatus.PLACED)) {
             throw new InvalidOrderStatusException("Nie można opłacić zamówienia o statusie: " + this.status);
         }
-
         this.status = OrderStatus.PAID;
-
         this.domainEvents.add(new CustomerOrderPaidDomainEvent(
                 this.id.value(), UUID.fromString(this.customerId), this.productSku, this.quantity
         ));

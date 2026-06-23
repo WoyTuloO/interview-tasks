@@ -7,16 +7,14 @@ import java.util.UUID;
 @Entity
 @Table(name = "manufacturing_order_material_requirements")
 public class MaterialRequirementEntity {
+
     @Id
     private UUID id;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "manufacturing_order_id", nullable = false)
     private ManufacturingOrderEntity manufacturingOrder;
-
     @Column(name = "semi_product_sku", nullable = false)
     private String semiProductSku;
-
     @Column(name = "required_quantity", nullable = false)
     private int requiredQuantity;
 
