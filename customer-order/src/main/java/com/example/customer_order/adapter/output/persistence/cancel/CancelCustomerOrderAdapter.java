@@ -8,6 +8,7 @@ import com.example.customer_order.domain.model.order.OrderStatus;
 
 import com.example.customer_order.domain.model.order.exception.ManufacturingServiceUnavailableException;
 import com.example.customer_order.domain.model.order.exception.OrderManufacturingStartedException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.client.RestClient;
@@ -17,15 +18,11 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
+@RequiredArgsConstructor
 public class CancelCustomerOrderAdapter implements CancelCustomerOrderPort{
 
     private final SpringDataCustomerOrderRepository springDataRepository;
     private final RestClient restClient;
-
-    public CancelCustomerOrderAdapter(SpringDataCustomerOrderRepository springDataRepository, RestClient restClient) {
-        this.springDataRepository = springDataRepository;
-        this.restClient = restClient;
-    }
 
     @Override
     public Optional<CustomerOrder> findById(UUID orderId) {
@@ -57,7 +54,6 @@ public class CancelCustomerOrderAdapter implements CancelCustomerOrderPort{
                 throw new ManufacturingServiceUnavailableException(exception);
             }
         }
-
         entity.setStatus(OrderStatus.CANCEL);
         springDataRepository.save(entity);
     }

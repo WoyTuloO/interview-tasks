@@ -5,21 +5,15 @@ import com.example.customer_order.adapter.output.persistence.order.CustomerOrder
 import com.example.customer_order.domain.model.order.CustomerOrder;
 import com.example.customer_order.domain.model.order.OrderId;
 import com.example.customer_order.domain.model.order.exception.ProductNotAvailableException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.UUID;
 
+@RequiredArgsConstructor
 public class CreateCustomerOrderHandler {
 
     private final CustomerOrderRepositoryPort repositoryPort;
     private final ProductAvailabilityPort productAvailabilityPort;
-
-    public CreateCustomerOrderHandler(
-            CustomerOrderRepositoryPort repositoryPort,
-            ProductAvailabilityPort productAvailabilityPort
-    ) {
-        this.repositoryPort = repositoryPort;
-        this.productAvailabilityPort = productAvailabilityPort;
-    }
 
     @Transactional
     public UUID handle(CreateCustomerOrderCommand command) {
@@ -33,9 +27,7 @@ public class CreateCustomerOrderHandler {
                 command.productSku(),
                 command.quantity()
         );
-
         repositoryPort.save(order);
-
         return order.getId().value();
     }
 }

@@ -3,6 +3,7 @@ package com.example.customer_order.adapter.input.rest.cancel;
 import com.example.customer_order.application.cancel.CancelOrderCommand;
 import com.example.customer_order.application.cancel.CancelOrderHandler;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,13 +14,10 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/orders")
+@RequiredArgsConstructor
 public class CancelOrderController {
 
     public final CancelOrderHandler cancelOrderHandler;
-
-    public CancelOrderController(CancelOrderHandler cancelOrderHandler) {
-        this.cancelOrderHandler = cancelOrderHandler;
-    }
 
     @PostMapping("/{orderId}/cancel")
     public ResponseEntity<Void> handleCancel(@PathVariable("orderId") UUID orderId){

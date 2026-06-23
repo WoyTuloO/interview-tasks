@@ -2,6 +2,7 @@ package com.example.customer_order.adapter.input.rest.order;
 
 import com.example.customer_order.application.order.CreateCustomerOrderCommand;
 import com.example.customer_order.application.order.CreateCustomerOrderHandler;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,13 +11,10 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/orders")
+@RequiredArgsConstructor
 public class CreateCustomerOrderController {
 
     private final CreateCustomerOrderHandler handler;
-
-    public CreateCustomerOrderController(CreateCustomerOrderHandler handler) {
-        this.handler = handler;
-    }
 
     @PostMapping
     public ResponseEntity<String> createOrder(@RequestBody CreateOrderRequest request) {

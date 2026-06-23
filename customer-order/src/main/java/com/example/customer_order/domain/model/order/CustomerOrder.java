@@ -35,6 +35,7 @@ public class CustomerOrder {
     }
 
     public void updateDetails(String productSku, int quantity) {
+        //Zad1
         if (!OrderStatus.PLACED.equals(this.status)) {
             throw new InvalidOrderStatusException("Nie można edytować zamówienia o statusie: " + this.status);
         }

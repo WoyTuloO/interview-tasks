@@ -8,10 +8,10 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "material_stock")
 public class MaterialStockEntity {
+
     @Id
     @Column(name = "material_sku", nullable = false)
     private String materialSku;
-
     @Column(nullable = false)
     private int quantity;
 

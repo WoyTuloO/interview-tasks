@@ -4,6 +4,7 @@ import com.example.common.messaging.order.CustomerOrderKafkaTopics;
 import com.example.common.messaging.order.OrderCreatedEventPayload;
 import com.example.manufacturing_order.application.order.CreateManufacturingOrderCommand;
 import com.example.manufacturing_order.application.order.CreateManufacturingOrderHandler;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,31 +14,23 @@ import tools.jackson.databind.ObjectMapper;
 
 @Component
 @Slf4j
+@RequiredArgsConstructor
 public class CustomerOrderEventListener {
 
-    private static final Logger log = LoggerFactory.getLogger(CustomerOrderEventListener.class);
     private final CreateManufacturingOrderHandler handler;
     private final ObjectMapper objectMapper;
-
-    public CustomerOrderEventListener(CreateManufacturingOrderHandler handler, ObjectMapper objectMapper) {
-        this.handler = handler;
-        this.objectMapper = objectMapper;
-    }
 
     @KafkaListener(topics = CustomerOrderKafkaTopics.ORDER_PAID, groupId = "manufacturing-service-group")
     public void onCustomerOrderPaid(String message) {
         try {
             OrderCreatedEventPayload event = objectMapper.readValue(message, OrderCreatedEventPayload.class);
-
             log.info("Odebrano opłacone zamówienie klienta: orderId={}, sku={}, qty={}",
                     event.orderId(), event.sku(), event.qty());
-
             CreateManufacturingOrderCommand command = new CreateManufacturingOrderCommand(
                     event.orderId(),
                     event.sku(),
                     event.qty()
             );
-
             handler.handle(command);
         } catch (Exception e) {
             log.error("Błąd podczas przetwarzania wiadomości z Kafki: {}", message, e);

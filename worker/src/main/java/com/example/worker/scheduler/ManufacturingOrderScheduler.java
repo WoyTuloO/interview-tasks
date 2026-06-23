@@ -23,7 +23,6 @@ public class ManufacturingOrderScheduler {
     @Scheduled(fixedRate = 2000, initialDelay = 5000)
     public void triggerManufacturingOrderStart() {
         log.info("Wysyłanie żądania POST do StartManufacturingOrderController...");
-
         try {
             ResponseEntity<Void> response = restClient.post()
                     .uri("/api/manufacturing-orders/start")

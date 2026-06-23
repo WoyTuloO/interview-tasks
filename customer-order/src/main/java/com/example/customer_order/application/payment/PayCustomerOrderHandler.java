@@ -4,17 +4,14 @@ import com.example.customer_order.adapter.output.outbox.SpringCustomerOrderEvent
 import com.example.customer_order.domain.model.order.CustomerOrder;
 import com.example.customer_order.adapter.output.persistence.payment.PayCustomerOrderRepositoryPort;
 import com.example.customer_order.domain.model.order.exception.CustomerOrderNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
+@RequiredArgsConstructor
 public class PayCustomerOrderHandler {
 
     private final PayCustomerOrderRepositoryPort repositoryPort;
     private final SpringCustomerOrderEventPublisher publisher;
-
-    public PayCustomerOrderHandler(PayCustomerOrderRepositoryPort repositoryPort, SpringCustomerOrderEventPublisher publisher) {
-        this.repositoryPort = repositoryPort;
-        this.publisher = publisher;
-    }
 
     @Transactional
     public void handle(PayCustomerOrderCommand command) {
@@ -22,9 +19,7 @@ public class PayCustomerOrderHandler {
                 .orElseThrow(() -> new CustomerOrderNotFoundException(command.orderId()));
 
         order.pay();
-
         repositoryPort.save(order);
-
         publisher.publishOrderPaid(order);
     }
 }

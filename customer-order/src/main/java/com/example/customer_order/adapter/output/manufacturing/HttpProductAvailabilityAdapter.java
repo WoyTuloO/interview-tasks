@@ -2,18 +2,16 @@ package com.example.customer_order.adapter.output.manufacturing;
 
 import com.example.common.api.product.ProductAvailabilityResponse;
 import com.example.customer_order.domain.model.order.exception.ManufacturingServiceUnavailableException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.client.RestClientException;
 
 @Component
+@RequiredArgsConstructor
 public class HttpProductAvailabilityAdapter implements ProductAvailabilityPort {
 
     private final RestClient restClient;
-
-    public HttpProductAvailabilityAdapter(RestClient manufacturingRestClient) {
-        this.restClient = manufacturingRestClient;
-    }
 
     @Override
     public boolean isProductAvailable(String productSku) {

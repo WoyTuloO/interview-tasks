@@ -7,9 +7,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @SpringBootApplication
 @EnableScheduling
 public class CustomerOrderApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(CustomerOrderApplication.class, args);
 	}
-
 }

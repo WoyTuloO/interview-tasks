@@ -16,7 +16,7 @@ public class ManufacturingOrderSwaggerConfig {
         return new OpenAPI()
                 .info(new Info()
                         .title("Manufacturing Order - API")
-                        .description("Dokumentacja techniczna modułu Manufacturing Order (DDD + Hexagonal Architecture)")
+                        .description("Dokumentacja techniczna modułu Manufacturing Order")
                         .version("1.0.0")
                         .contact(new Contact()
                                 .name("Java Developer")
