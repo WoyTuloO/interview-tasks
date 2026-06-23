@@ -15,10 +15,10 @@ public class CreateCustomerOrderController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-        public void createOrder(@RequestBody CreateOrderRequest request) {
+        public String createOrder(@RequestBody CreateOrderRequest request) {
         var command = new CreateCustomerOrderCommand(
                 request.customerId().toString(), request.productSku(), request.quantity()
         );
-        handler.handle(command);
+        return handler.handle(command).toString();
     }
 }

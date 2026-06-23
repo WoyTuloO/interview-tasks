@@ -27,7 +27,7 @@ public class CustomerOrder {
 
     public static CustomerOrder createNew(String customerId, String productSku, int quantity) {
         if (quantity <= 0) throw new IllegalArgumentException("Quantity must be greater than zero");
-        return new CustomerOrder(OrderId.generate(), customerId, productSku, quantity, null);
+        return new CustomerOrder(OrderId.generate(), customerId, productSku, quantity, OrderStatus.MANUFACTURING_TRIGGERED);
     }
 
     public static CustomerOrder reconstruct(OrderId orderId, String customerId, String productSku, int quantity, OrderStatus status) {
